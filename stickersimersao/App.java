@@ -9,12 +9,11 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
 
-import br.com.alura.stickersimersao.util.JsonParser;
 import br.com.alura.stickersimersao.util.RequestSaver;
 
 public class App {
     public static void main(String[] args) {
-        String json = pegarJsonString("https://imdb-api.com/en/API/Top250Movies/k_l3uzs1py", true);
+        String json = pegarJsonString("https://imdb-api.com/en/API/Top250Movies/k_l3uzs1py", false);
         List<Map<String, String>> listaDeFilmes = new JsonParser().parse(json);
 
         for (Map<String, String> filme : listaDeFilmes) {
@@ -23,6 +22,7 @@ public class App {
             System.out.println(filme.get("imDbRating"));
             System.out.println();
         }
+        
     }
 
     private static String pegarJsonString(String url, Boolean newRequest) {

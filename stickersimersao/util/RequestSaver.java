@@ -6,5 +6,4 @@ public class RequestSaver {
     public static String getJson() {
         return json;
     }
-    
 }
