@@ -36,12 +36,7 @@ public abstract class JsonParser {
 
             dados.add(atributosItem);
         }
-        for (Map<String, String> atributo : dados) {
-            String url = atributo.get("image");
-            int fim = url.indexOf("@")+1;
-            String novaUrl= url.substring(0, fim)+".jpg";
-            atributo.replace("image", url, novaUrl);
-        }
+        
         return dados;
     }
 }
