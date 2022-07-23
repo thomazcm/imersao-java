@@ -18,7 +18,7 @@ public class GerenciadorDeLista {
 
     public List<Map<String, String>> criaLista(String endpoint) {
         String json = RequestMaker.getJsonFromEndpoint(endpoint);
-        return JsonParser.parseListFromString(json);
+        return new JsonParser().parseListFromString(json);
     }
 
     public List<Map<String, String>> restauraImagens(List<Map<String, String>> lista) {

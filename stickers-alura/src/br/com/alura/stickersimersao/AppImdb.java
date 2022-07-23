@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.alura.stickersimersao.content.Content;
 import br.com.alura.stickersimersao.generator.ImageGenerator;
 import br.com.alura.stickersimersao.generator.ImdbListGenerator;
+import br.com.alura.stickersimersao.generator.ImdbTextGenerator;
 import br.com.alura.stickersimersao.generator.ListGenerator;
 
 public class AppImdb {
@@ -13,6 +14,6 @@ public class AppImdb {
         ListGenerator generator = new ImdbListGenerator();
         List<Content> contentList = generator.generateList(endpoint);
         
-        new ImageGenerator().createListImages(contentList, "output/imdb/");
+        new ImageGenerator().createListImages(contentList, "output/imdb/", new ImdbTextGenerator());
     }
 }

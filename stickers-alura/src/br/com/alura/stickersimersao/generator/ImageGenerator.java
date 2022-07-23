@@ -1,16 +1,18 @@
 package br.com.alura.stickersimersao.generator;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import br.com.alura.stickersimersao.content.Content;
+import br.com.alura.stickersimersao.content.ContentImdb;
 
 public class ImageGenerator {
     public void createListImages(List<Content> contentList, String directory) {
@@ -18,8 +20,11 @@ public class ImageGenerator {
             for (Content content : contentList) {
                 String fileName = directory + content.getTitle().replaceAll(":", "");
                 var inputStreamUrl = new URL(content.getImageUrl()).openStream();
-
-                createImage(inputStreamUrl, fileName);
+                BufferedImage sourceImage = ImageIO.read(inputStreamUrl);
+                BufferedImage newImage = new BufferedImage(sourceImage.getWidth(), 
+                                                           sourceImage.getHeight(), 
+                                                           BufferedImage.TRANSLUCENT);
+                saveImage(sourceImage, newImage, fileName);
                 System.out.println("Creating image [" + content.getTitle() + "]...");
             }
         } catch (IOException e) {
@@ -28,49 +33,50 @@ public class ImageGenerator {
         }
     }
 
-    private void createImage(InputStream inputStream, String fileName) {
-        BufferedImage originalImage;
+    public void createListImages(List<Content> contentList, String directory, TextGenerator textGenerator) {
         try {
-            originalImage = ImageIO.read(inputStream);
-            String format = "png";
-            Integer width = originalImage.getWidth();
-            Integer height = originalImage.getHeight();
-
-            BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
-            Graphics2D graphics = (Graphics2D) newImage.getGraphics();
-            graphics.drawImage(originalImage, 0, 0, null);
-
-            ImageIO.write(newImage, format, new File(fileName + "." + format));
+            for (Content content : contentList) {
+                String fileName = directory + content.getTitle().replaceAll(":", "");
+                var inputStreamUrl = new URL(content.getImageUrl()).openStream();
+                BufferedImage sourceImage = ImageIO.read(inputStreamUrl);
+                ////// repeated code above/////
+                Integer newHeight = (int) Math.round(sourceImage.getHeight()*1.16);
+                var newImage = new BufferedImage(sourceImage.getWidth(),
+                                                           newHeight,
+                                                           BufferedImage.TRANSLUCENT);
+                var contentImdb = (ContentImdb) content;
+                String stickerText = textGenerator.generateText(contentImdb.getImDbRating());
+                saveImage(sourceImage, newImage, fileName, stickerText);
+                System.out.println("Creating image [" + content.getTitle() + "]...");
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
 
-//    public void cria(InputStream inputStream, String nomeArquivo, String textoSticker) throws IOException {
-//        BufferedImage imagemOriginal = ImageIO.read(inputStream);
-//        Integer largura = imagemOriginal.getWidth();
-//        Integer altura = imagemOriginal.getHeight();
-//        
-//        Integer novaAltura = (int) Math.round(altura*1.16);
-//        
-//        BufferedImage novaImagem = new BufferedImage(largura, novaAltura, BufferedImage.TRANSLUCENT);
-//        Graphics2D graphics = (Graphics2D) novaImagem.getGraphics();
-//        
-//        graphics.drawImage(imagemOriginal, 0, 0, null);
-//        
-//        Integer tamanhoFonte = (int) Math.round(largura*0.110);
-//        
-//        Font fonte = new Font(Font.SANS_SERIF, Font.BOLD, tamanhoFonte);
-//        graphics.setFont(fonte);
-//        graphics.setColor(Color.YELLOW);
-//        
-//        Integer correcaoY = (int) Math.round((novaAltura-altura)*0.88);
-//        Integer yTexto = novaAltura - correcaoY + tamanhoFonte;
-//        Integer xTexto = (int) Math.round(largura*0.11);
-//        
-//        
-//        graphics.drawString(textoSticker, xTexto, yTexto);
-//        ImageIO.write(novaImagem, "png", new File(nomeArquivo+".png"));
-//    }
+    private void saveImage(BufferedImage sourceImage, BufferedImage newImage, String fileName) throws IOException {
+        String format = "png";
+        Graphics2D graphics = (Graphics2D) newImage.getGraphics();
+        graphics.drawImage(sourceImage, 0, 0, null);
+        ImageIO.write(newImage, format, new File(fileName + "." + format));
+    }
+
+    private void saveImage(BufferedImage sourceImage, BufferedImage newImage, String fileName,
+            String stickerText) throws IOException {
+        String format = "png";
+        Graphics2D graphics = (Graphics2D) newImage.getGraphics();
+        graphics.drawImage(sourceImage, 0, 0, null);
+        ////// repeated code above/////
+        Integer fontSize = (int) Math.round(sourceImage.getWidth()*0.110);
+        graphics.setFont(new Font(Font.MONOSPACED, Font.BOLD, fontSize));
+        graphics.setColor(Color.YELLOW);
+        
+        Integer yCorrection = (int) Math.round((newImage.getHeight()-sourceImage.getHeight())*0.88);
+        Integer yText = newImage.getHeight() - yCorrection + fontSize;
+        Integer xText = (int) Math.round(sourceImage.getWidth()*0.105);
+        graphics.drawString(stickerText, xText, yText);
+        
+        ImageIO.write(newImage, format, new File(fileName + "." + format));
+    }
 }
