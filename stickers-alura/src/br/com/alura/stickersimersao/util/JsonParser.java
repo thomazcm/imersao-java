@@ -11,7 +11,7 @@ public abstract class JsonParser {
     private static final Pattern REGEX_ITEMS = Pattern.compile(".*\\[(.+)\\].*");
     private static final Pattern REGEX_ATRIBUTOS_JSON = Pattern.compile("\"(.+?)\":\"(.*?)\"");
     
-    public static List<Map<String, String>> parse(String json) {
+    public static List<Map<String, String>> parseListFromString(String json) {
 
         Matcher matcher = REGEX_ITEMS.matcher(json);
         if (!matcher.find()) {
