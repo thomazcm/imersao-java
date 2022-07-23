@@ -25,4 +25,4 @@ Tanto o AppImdb como o AppNasa funcionam para gerar um conjunto de imagens a par
 
 ### Fim da parte 3
 Renomeei os métodos, atributos e classes para inglês. A classe de ListGenerator foi reorganizada como uma interface e as diferentes implementações das diferentes APIs implementam a fim de possibilitar a expansão do projeto no futuro.
-A classe de criação de imagens agora recebe uma lista de Content, e o método que recebe o InputStream e nome do Arquivo passa a ser um método privado da classe.
+A classe de criação de imagens agora recebe uma lista de Content, e com base nos parâmetros que recebe cria ou as imagens da Nasa sem texto, ou os stickers do IMDB quando recebe um TextGenerator.
