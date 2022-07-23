@@ -5,7 +5,7 @@ public class Content {
     private final String imageUrl;
 
     public Content(String title, String imageUrl) {
-        this.title = title;
+        this.title = title.replaceAll(":", "");
         this.imageUrl = imageUrl;
     }
 

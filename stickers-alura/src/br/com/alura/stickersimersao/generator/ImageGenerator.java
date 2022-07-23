@@ -16,58 +16,60 @@ import br.com.alura.stickersimersao.content.ContentImdb;
 
 public class ImageGenerator {
     public void createListImages(List<Content> contentList, String directory) {
-        try {
-            for (Content content : contentList) {
-                String fileName = directory + content.getTitle().replaceAll(":", "");
-                var inputStreamUrl = new URL(content.getImageUrl()).openStream();
-                BufferedImage sourceImage = ImageIO.read(inputStreamUrl);
-                BufferedImage newImage = new BufferedImage(sourceImage.getWidth(), 
-                                                           sourceImage.getHeight(), 
-                                                           BufferedImage.TRANSLUCENT);
-                saveImage(sourceImage, newImage, fileName);
-                System.out.println("Creating image [" + content.getTitle() + "]...");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+        for (Content content : contentList) {
+            var sourceImage = getBufferedImageFromUrl(content.getImageUrl());
+            var newImage = new BufferedImage(sourceImage.getWidth(), 
+                                             sourceImage.getHeight(), BufferedImage.TRANSLUCENT);
+            
+            saveImage(sourceImage, newImage, directory+content.getTitle());
         }
     }
 
     public void createListImages(List<Content> contentList, String directory, TextGenerator textGenerator) {
+        for (Content content : contentList) {
+            var sourceImage = getBufferedImageFromUrl(content.getImageUrl());
+            var newHeight = (int) Math.round(sourceImage.getHeight()*1.16);
+            var newImage = new BufferedImage(sourceImage.getWidth(),
+                                             newHeight, BufferedImage.TRANSLUCENT);
+            var contentImdb = (ContentImdb) content;
+            var stickerText = textGenerator.generateText(contentImdb.getImDbRating());
+            
+            saveImage(sourceImage, newImage, directory+content.getTitle(), stickerText);
+        }
+    }
+
+    private BufferedImage getBufferedImageFromUrl(String url) {
         try {
-            for (Content content : contentList) {
-                String fileName = directory + content.getTitle().replaceAll(":", "");
-                var inputStreamUrl = new URL(content.getImageUrl()).openStream();
-                BufferedImage sourceImage = ImageIO.read(inputStreamUrl);
-                ////// repeated code above/////
-                Integer newHeight = (int) Math.round(sourceImage.getHeight()*1.16);
-                var newImage = new BufferedImage(sourceImage.getWidth(),
-                                                           newHeight,
-                                                           BufferedImage.TRANSLUCENT);
-                var contentImdb = (ContentImdb) content;
-                String stickerText = textGenerator.generateText(contentImdb.getImDbRating());
-                saveImage(sourceImage, newImage, fileName, stickerText);
-                System.out.println("Creating image [" + content.getTitle() + "]...");
-            }
+            BufferedImage sourceImage;
+            var inputStreamUrl = new URL(url).openStream();
+            sourceImage = ImageIO.read(inputStreamUrl);
+            return sourceImage;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    private void saveImage(BufferedImage sourceImage, BufferedImage newImage, String fileName) throws IOException {
-        String format = "png";
+    private Graphics2D createGraphics(BufferedImage sourceImage, BufferedImage newImage) {
         Graphics2D graphics = (Graphics2D) newImage.getGraphics();
         graphics.drawImage(sourceImage, 0, 0, null);
-        ImageIO.write(newImage, format, new File(fileName + "." + format));
+        return graphics;
+    }
+
+    private void saveImage(BufferedImage sourceImage, BufferedImage newImage, String fileName) {
+        createGraphics(sourceImage, newImage);
+        writeImage(newImage, fileName);
     }
 
     private void saveImage(BufferedImage sourceImage, BufferedImage newImage, String fileName,
-            String stickerText) throws IOException {
-        String format = "png";
-        Graphics2D graphics = (Graphics2D) newImage.getGraphics();
-        graphics.drawImage(sourceImage, 0, 0, null);
-        ////// repeated code above/////
+            String stickerText) {
+        Graphics2D graphics = createGraphics(sourceImage, newImage);
+        writeStickerText(sourceImage, newImage, stickerText, graphics);
+        writeImage(newImage, fileName);
+    }
+
+    private void writeStickerText(BufferedImage sourceImage, BufferedImage newImage, String stickerText,
+            Graphics2D graphics) {
         Integer fontSize = (int) Math.round(sourceImage.getWidth()*0.110);
         graphics.setFont(new Font(Font.MONOSPACED, Font.BOLD, fontSize));
         graphics.setColor(Color.YELLOW);
@@ -76,7 +78,15 @@ public class ImageGenerator {
         Integer yText = newImage.getHeight() - yCorrection + fontSize;
         Integer xText = (int) Math.round(sourceImage.getWidth()*0.105);
         graphics.drawString(stickerText, xText, yText);
-        
-        ImageIO.write(newImage, format, new File(fileName + "." + format));
+    }
+
+    private void writeImage(BufferedImage newImage, String fileName) {
+        try {
+            System.out.println("Creating image [" + fileName +"]...");
+            ImageIO.write(newImage, "png", new File(fileName + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
