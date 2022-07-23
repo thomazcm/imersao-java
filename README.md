@@ -1,7 +1,7 @@
 # Projeto Imersão Java
 __Projeto desenvolvido durante a semana de imersão Java da Alura, focado em consumir APIs e gerar imagens dinamicamente__
 
-## Parte 2 - Criando stickers para o whatsapp
+## Partes  1 e 2 - Criando stickers para o whatsapp
 _Para os primeiros dias da imersão foi enfatizado o uso das bibliotecas básicas do Java, e sem uso de Maven ou Spring_
 
 Projeto do fim da aula funcionando para criar stickers da lista de todos os 250 filmes mais populares do IMDB. Não inclui mais que 3 stickers porque estão com o tamanho bem grande.
