@@ -1,9 +1,9 @@
 # Projeto Imersão Java
 __Projeto final rodando em https://thomaz-rest-api.herokuapp.com__
 
-Projeto final: rest-api
+ rest-api : Projeto final
 
-Projeto desenvolvido durante as aulas: stickers-alura
+stickers-alura : Projeto desenvolvido durante as aulas
 
 __Projeto desenvolvido durante a semana de imersão Java da Alura, focado em consumir APIs e gerar imagens dinamicamente
 usando thymeleaf exibe os titulos, notas e posters dos 100 filmes mais populares do imdb obtidos pela API e salvos no MongoDB,
