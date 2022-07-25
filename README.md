@@ -1,5 +1,14 @@
 # Projeto Imersão Java
-__Projeto desenvolvido durante a semana de imersão Java da Alura, focado em consumir APIs e gerar imagens dinamicamente__
+__Projeto final rodando em https://thomaz-rest-api.herokuapp.com__
+
+__Projeto desenvolvido durante a semana de imersão Java da Alura, focado em consumir APIs e gerar imagens dinamicamente
+usando thymeleaf exibe os titulos, notas e posters dos 100 filmes mais populares do imdb obtidos pela API e salvos no MongoDB,
+e alterna para a página que exibe as imagens do dia da NASA de junho, também  obtidas pela api e salvas no banco de dados.
+Uma página também foi criada com os links que retornam os mesmos dados obtidos a partir do banco de dados no MongoDB.__
+
+https://thomaz-rest-api.herokuapp.com/lists/imdb __link para exibiçao dos conteudos imdb__
+
+https://thomaz-rest-api.herokuapp.com/lists/nasa __link para exibiçao dos conteudos nasa__
 
 ## Partes  1 e 2 - Criando stickers para o whatsapp
 _Para os primeiros dias da imersão foi enfatizado o uso das bibliotecas básicas do Java, e sem uso de Maven ou Spring_
