@@ -2,6 +2,7 @@
 __Projeto final rodando em https://thomaz-rest-api.herokuapp.com__
 
 Projeto final: rest-api
+
 Projeto desenvolvido durante as aulas: stickers-alura
 
 __Projeto desenvolvido durante a semana de imersão Java da Alura, focado em consumir APIs e gerar imagens dinamicamente
