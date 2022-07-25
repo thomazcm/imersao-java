@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}"/>
+<body>
+    <div class="container">
+        <div th:replace="~{base :: titulo(${titulo})}"}></div>
+        <div class=" mt-3">
+            <a href="/list/imdb"><button class="btn btn-outline-secondary my-2 my-sm-0 ">Voltar para Listas</button></a>
+        </div>
+        
+        <div class="card mt-3">
+	        <form  class="card-body">
+	        
+	            <div class="form-group">
+	                <label>Link com os dados da API dos 100 filmes mais populares imdb</label>
+	                <input value="https://thomaz-rest-api.herokuapp.com/api/get/imdb" class="form-control"  /> 
+	                <small>Retorna o JSON com a lista de filmes com titulo link para a imagem e nota no imdb.</small>
+	            </div>
+	            
+                <div class="form-group">
+	                <label>Link com os dados da API das imagens do dia da NASA de junho</label>
+	                <input value="https://thomaz-rest-api.herokuapp.com/api/get/nasa" class="form-control"  /> 
+	                <small>Retorna o JSON com a lista de imagens da NASA de junho, compostas de titulo e url para a imagem.</small>
+	            </div>
+
+	        </form>
+        </div>
+    </div>
+</body>
+
+</html>

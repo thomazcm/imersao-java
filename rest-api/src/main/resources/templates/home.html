@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}"/>
+<body>
+<div class="container">
+<div th:replace="~{base :: titulo(${titulo})}"}></div>
+        <nav class="navbar navbar-expand navbar-light 
+                   bg-light mb-3
+                   d-flex justify-content-between">
+            <div class="navbar-nav">
+                <a th:classappend="${category} == 'imdb' ? 'active'" class="nav-item nav-link" href="/list/imdb">Filmes Imdb</a> 
+                <a th:classappend="${category} == 'nasa' ? 'active'" class="nav-item nav-link" href="/list/nasa">Imagens Nasa</a> 
+            </div> 
+            <a href="/links-api">
+                <button class="btn btn-outline-secondary my-2 my-sm-0">Links para conteúdo das APIs</button>
+            </a>
+        </nav>
+
+        <div class="card" th:each="content : ${contentList}">
+            <div class="card-header alert alert-secondary d-flex justify-content-between">
+                <div>
+                    <span class="h3" th:text="${content.title}"></span>
+                </div>
+                <div>
+                    <div th:if="${category} == imdb">
+                        <span> Nota Imdb: </span>
+                        <span  th:text="${content.imdbRating}"></span><span> </span>
+                        <span th:each="star : ${content.stars}"> &#11088</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 mb-5">
+                    <img class="img-thumbnail" th:src="${content.imageUrl}"/>
+                </div>
+            </div> 
+        </div>
+    </div>
+</body>
+
+</html>
