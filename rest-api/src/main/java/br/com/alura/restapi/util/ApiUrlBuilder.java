@@ -11,7 +11,7 @@ public abstract class ApiUrlBuilder {
             return "https://api.nasa.gov/planetary/apod?api_key="
                     +apiKey
                     +"&start_date=2022-06-01"
-                    +"&end_date=2022-06-30";
+                      +"&end_date=2022-06-30";
         }
         return null;
     }

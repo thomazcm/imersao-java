@@ -1,8 +1,5 @@
 package br.com.alura.restapi.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +74,13 @@ public class DataBaseController {
             return "Banco de dados já possui as imagens";
         }
     }
+    
+//    @GetMapping("refresh-imdb/{apiKey}")
+//    public String()
 
     @GetMapping("clear/{password}")
     private String clearRepositories(@PathVariable("password") String password) {
-        if (password.contentEquals("*****")) {
+        if (password.contentEquals("")) {
             imdbRepository.deleteAll();
             nasaRepository.deleteAll();
             return "Banco de dados deletado";

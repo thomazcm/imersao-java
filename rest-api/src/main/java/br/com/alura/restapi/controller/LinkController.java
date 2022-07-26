@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LinkController {
-    
+    @GetMapping("/")
+    public String home(){
+        return "redirect:links-api";
+    }
     @GetMapping("links-api")
     public String getLinks(Model model) {
         model.addAttribute("titulo", "API Links");
